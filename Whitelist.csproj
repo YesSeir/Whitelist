@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Whitelist</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.367" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputPath>build\addons\counterstrikesharp\plugins\$(AssemblyName)</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <BaseOutputPath>bin</BaseOutputPath>
+  </PropertyGroup>
+  
+  <Target Name="CopyConfigToCfg" AfterTargets="AfterBuild">
+    <MakeDir Directories="build\cfg\plugins\$(AssemblyName)" />
+    <Copy SourceFiles="config.json" DestinationFolder="build\cfg\plugins\$(AssemblyName)" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="PreBuildClean" BeforeTargets="BeforeBuild">
+    <RemoveDir Directories="build" Condition="Exists('build')" />
+  </Target>
+
+  <Target Name="CleanFolders" AfterTargets="AfterBuild">
+    <RemoveDir Directories="bin" Condition="Exists('bin')" />
+    <RemoveDir Directories="obj" Condition="Exists('obj')" />
+  </Target>
+</Project>
